@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+        content="SmartQueue is a digital queue management system for hospitals, banks and barber shops.">
+
+    <title>SmartQueue - Digital Queue Management</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+        <nav class="navbar">
+
+            <a href="#home" class="logo">
+                Smart<span>Queue</span>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle">
+                ☰
+            </button>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#queue-demo">Queue Status</a></li>
+                <li><a href="#my-queue">My Queue</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ================= HERO ================= -->
+
+    <main>
+
+        <section class="hero" id="home">
+
+            <div class="hero-content">
+
+                <p class="hero-tag">SMART • SIMPLE • CONVENIENT</p>
+
+                <h1>
+                    Skip the Wait.<br>
+                    <span>Manage Your Queue.</span>
+                </h1>
+
+                <p class="hero-description">
+                    SmartQueue helps you join and monitor queues digitally
+                    for hospitals, banks and barber shops.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="#services" class="btn primary-btn">
+                        Join a Queue
+                    </a>
+
+                    <a href="#how-it-works" class="btn secondary-btn">
+                        How It Works
+                    </a>
+                </div>
+
+            </div>
+
+
+            <!-- Hero Queue Card -->
+
+            <div class="hero-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <p class="small-text">LIVE QUEUE</p>
+                        <h3>CityCare Hospital</h3>
+                    </div>
+
+                    <span class="status-dot">
+                        ● Live
+                    </span>
+
+                </div>
+
+                <div class="queue-number">
+                    <p>Current Token</p>
+                    <strong id="heroCurrentToken">40</strong>
+                </div>
+
+                <div class="queue-info">
+
+                    <div>
+                        <span>Your Token</span>
+                        <strong>#45</strong>
+                    </div>
+
+                    <div>
+                        <span>Estimated Wait</span>
+                        <strong id="heroWaitTime">25 min</strong>
+                    </div>
+
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+
+                <p class="queue-message">
+                    Please be ready when your token is called.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= SERVICES ================= -->
+
+        <section class="services section" id="services">
+
+            <div class="section-heading">
+
+                <p class="section-tag">OUR SERVICES</p>
+
+                <h2>
+                    One System, Multiple Services
+                </h2>
+
+                <p>
+                    Choose the service you need and manage your queue
+                    without waiting unnecessarily.
+                </p>
+
+            </div>
+
+
+            <div class="service-grid">
+
+                <!-- Hospital -->
+
+                <article class="service-card hospital-card">
+
+                    <div class="service-icon">
+                        🏥
+                    </div>
+
+                    <h3>Hospital / Clinic</h3>
+
+                    <p>
+                        Join a queue for doctor consultation,
+                        registration or other healthcare services.
+                    </p>
+
+                    <ul>
+                        <li>Doctor Consultation</li>
+                        <li>Registration</li>
+                        <li>Token Tracking</li>
+                    </ul>
+
+                    <button class="service-btn"
+                        data-service="Hospital / Clinic">
+                        Join Hospital Queue
+                    </button>
+
+                </article>
+
+
+                <!-- Bank -->
+
+                <article class="service-card bank-card">
+
+                    <div class="service-icon">
+                        🏦
+                    </div>
+
+                    <h3>Bank</h3>
+
+                    <p>
+                        Manage customer service and banking queues
+                        digitally and conveniently.
+                    </p>
+
+                    <ul>
+                        <li>Cash Counter</li>
+                        <li>Customer Service</li>
+                        <li>Token Tracking</li>
+                    </ul>
+
+                    <button class="service-btn"
+                        data-service="Bank">
+                        Join Bank Queue
+                    </button>
+
+                </article>
+
+
+                <!-- Barber -->
+
+                <article class="service-card barber-card">
+
+                    <div class="service-icon">
+                        💈
+                    </div>
+
+                    <h3>Barber Shop</h3>
+
+                    <p>
+                        Join the haircut or grooming queue and
+                        monitor your position digitally.
+                    </p>
+
+                    <ul>
+                        <li>Haircut</li>
+                        <li>Grooming</li>
+                        <li>Queue Tracking</li>
+                    </ul>
+
+                    <button class="service-btn"
+                        data-service="Barber Shop">
+                        Join Barber Queue
+                    </button>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= PROBLEM ================= -->
+
+        <section class="problem section">
+
+            <div class="problem-content">
+
+                <div class="problem-text">
+
+                    <p class="section-tag">
+                        THE PROBLEM
+                    </p>
+
+                    <h2>
+                        Waiting in Long Queues Wastes Valuable Time
+                    </h2>
+
+                    <p>
+                        People often spend a lot of time waiting at
+                        hospitals, banks and service shops just to
+                        receive a simple service.
+                    </p>
+
+                    <p>
+                        SmartQueue provides a simple digital way to
+                        join a queue and monitor its progress.
+                    </p>
+
+                </div>
+
+
+                <div class="problem-points">
+
+                    <div class="problem-item">
+                        <span>01</span>
+                        <div>
+                            <h3>Long Waiting</h3>
+                            <p>
+                                Reduce unnecessary physical waiting.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <span>02</span>
+                        <div>
+                            <h3>No Queue Visibility</h3>
+                            <p>
+                                Know your current queue position.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <span>03</span>
+                        <div>
+                            <h3>Time Wastage</h3>
+                            <p>
+                                Use your waiting time more effectively.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= HOW IT WORKS ================= -->
+
+        <section class="how-it-works section" id="how-it-works">
+
+            <div class="section-heading">
+
+                <p class="section-tag">
+                    SIMPLE PROCESS
+                </p>
+
+                <h2>
+                    How SmartQueue Works
+                </h2>
+
+                <p>
+                    Join a queue in a few simple steps.
+                </p>
+
+            </div>
+
+
+            <div class="steps">
+
+                <div class="step">
+
+                    <div class="step-number">
+                        1
+                    </div>
+
+                    <h3>Choose Service</h3>
+
+                    <p>
+                        Select Hospital, Bank or Barber Shop.
+                    </p>
+
+                </div>
+
+
+                <div class="step">
+
+                    <div class="step-number">
+                        2
+                    </div>
+
+                    <h3>Join Queue</h3>
+
+                    <p>
+                        Get a digital token number.
+                    </p>
+
+                </div>
+
+
+                <div class="step">
+
+                    <div class="step-number">
+                        3
+                    </div>
+
+                    <h3>Track Status</h3>
+
+                    <p>
+                        Monitor your position in the queue.
+                    </p>
+
+                </div>
+
+
+                <div class="step">
+
+                    <div class="step-number">
+                        4
+                    </div>
+
+                    <h3>Get Served</h3>
+
+                    <p>
+                        Visit the counter when your turn arrives.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= FEATURES ================= -->
+
+        <section class="features section">
+
+            <div class="section-heading">
+
+                <p class="section-tag">
+                    FEATURES
+                </p>
+
+                <h2>
+                    Designed to Make Waiting Easier
+                </h2>
+
+            </div>
+
+
+            <div class="feature-grid">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        🎫
+                    </div>
+
+                    <h3>Digital Token</h3>
+
+                    <p>
+                        Get a token without standing in a physical queue.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        📊
+                    </div>
+
+                    <h3>Live Queue Status</h3>
+
+                    <p>
+                        Track your current position in the queue.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        ⏱️
+                    </div>
+
+                    <h3>Estimated Waiting Time</h3>
+
+                    <p>
+                        Get an approximate idea of your waiting time.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        📱
+                    </div>
+
+                    <h3>Responsive Design</h3>
+
+                    <p>
+                        Use SmartQueue comfortably on mobile,
+                        tablet and desktop.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= QUEUE DEMO ================= -->
+
+        <section class="queue-demo section" id="queue-demo">
+
+            <div class="section-heading">
+
+                <p class="section-tag">
+                    LIVE DEMO
+                </p>
+
+                <h2>
+                    Queue Status
+                </h2>
+
+                <p>
+                    Select a service to view its current queue.
+                </p>
+
+            </div>
+
+
+            <!-- Service selector -->
+
+            <div class="queue-selector">
+
+                <button class="queue-select-btn active"
+                    data-queue="hospital">
+                    🏥 Hospital
+                </button>
+
+                <button class="queue-select-btn"
+                    data-queue="bank">
+                    🏦 Bank
+                </button>
+
+                <button class="queue-select-btn"
+                    data-queue="barber">
+                    💈 Barber Shop
+                </button>
+
+            </div>
+
+
+            <!-- Queue Dashboard -->
+
+            <div class="queue-dashboard">
+
+                <div class="queue-dashboard-header">
+
+                    <div>
+
+                        <p class="small-text">
+                            CURRENT SERVICE
+                        </p>
+
+                        <h3 id="selectedService">
+                            CityCare Hospital
+                        </h3>
+
+                    </div>
+
+                    <span class="live-badge">
+                        ● LIVE
+                    </span>
+
+                </div>
+
+
+                <div class="queue-stats">
+
+                    <div class="queue-stat">
+
+                        <span>
+                            Current Token
+                        </span>
+
+                        <strong id="currentToken">
+                            #40
+                        </strong>
+
+                    </div>
+
+
+                    <div class="queue-stat">
+
+                        <span>
+                            Your Token
+                        </span>
+
+                        <strong id="yourToken">
+                            #45
+                        </strong>
+
+                    </div>
+
+
+                    <div class="queue-stat">
+
+                        <span>
+                            People Ahead
+                        </span>
+
+                        <strong id="peopleAhead">
+                            4
+                        </strong>
+
+                    </div>
+
+
+                    <div class="queue-stat">
+
+                        <span>
+                            Estimated Wait
+                        </span>
+
+                        <strong id="waitTime">
+                            25 min
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="queue-progress">
+
+                    <div class="queue-progress-top">
+
+                        <span>
+                            Queue Progress
+                        </span>
+
+                        <span id="progressText">
+                            80%
+                        </span>
+
+                    </div>
+
+                    <div class="progress-bar large">
+                        <div class="progress"
+                            id="queueProgress">
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="queue-actions">
+
+                    <button class="btn primary-btn"
+                        id="simulateBtn">
+                        Simulate Next Token
+                    </button>
+
+                    <button class="btn secondary-btn"
+                        id="resetBtn">
+                        Reset
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- =========================MY QUEUE / TOKEN HISTORY                    ========================= -->
+
+        <section class="my-queue section" id="my-queue">
+
+            <div class="section-heading">
+
+                <p class="section-tag">
+                    MY QUEUE
+                </p>
+
+                <h2>
+                    My Token History
+                </h2>
+
+                <p>
+                    Track all your active and previous queue tokens in one place.
+                </p>
+
+            </div>
+
+
+            <!-- Token Limit -->
+
+            <div class="token-limit">
+
+                <div>
+                    <span>Today's Tokens</span>
+                    <strong id="activeTokenCount">0 / 5</strong>
+                </div>
+
+                <div>
+                    <span>Maximum Limit</span>
+                    <strong>5 Tokens</strong>
+                </div>
+
+            </div>
+
+
+            <!-- Token History -->
+
+            <div class="token-history" id="tokenHistory">
+
+                <div class="empty-history">
+
+                    <div class="empty-icon">
+                        🎫
+                    </div>
+
+                    <h3>
+                        No Tokens Yet
+                    </h3>
+
+                    <p>
+                        Join a queue to see your token history here.
+                    </p>
+
+                    <a href="#services" class="btn primary-btn">
+                        Join a Queue
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= CTA ================= -->
+
+        <section class="cta section">
+
+            <div class="cta-content">
+
+                <p class="section-tag">
+                    SAVE YOUR TIME
+                </p>
+
+                <h2>
+                    Don't Spend Your Day Waiting
+                </h2>
+
+                <p>
+                    SmartQueue makes queue management simple,
+                    digital and convenient.
+                </p>
+
+                <a href="#services"
+                    class="btn primary-btn">
+                    Explore Services
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer" id="contact">
+
+        <div class="footer-content">
+
+            <div class="footer-brand">
+
+                <a href="#home" class="logo">
+                    Smart<span>Queue</span>
+                </a>
+
+                <p>
+                    A digital queue management concept for
+                    hospitals, banks and barber shops.
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <h4>Quick Links</h4>
+
+                <a href="#home">Home</a>
+                <a href="#services">Services</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#queue-demo">Queue Status</a>
+
+            </div>
+
+
+            <div class="footer-contact">
+
+                <h4>Contact</h4>
+
+                <p>Email: hello@smartqueue.demo</p>
+                <p>Location: Bengaluru, India</p>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 SmartQueue. Frontend Project.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- ================= JOIN QUEUE MODAL ================= -->
+
+    <div class="modal" id="queueModal">
+
+        <div class="modal-content">
+
+            <button class="modal-close" id="modalClose">
+                ×
+            </button>
+
+            <div class="modal-icon">
+                🎫
+            </div>
+
+            <h2>
+                Join Queue
+            </h2>
+
+            <p id="modalService">
+                Hospital / Clinic
+            </p>
+
+            <form id="queueForm">
+
+                <label for="userName">
+                    Your Name
+                </label>
+
+                <input
+                    type="text"
+                    id="userName"
+                    placeholder="Enter your name"
+                    required
+                >
+
+                <label for="serviceType">
+                        Select Service
+                </label>
+
+                <select id="serviceType" required>
+                    <!-- Services will be loaded based on selected category -->
+                </select>
+
+                <button type="submit"
+                    class="btn primary-btn full-btn">
+                    Get My Token
+                </button>
+
+            </form>
+
+
+            <div class="token-result" id="tokenResult">
+
+                <p>
+                    Your Token
+                </p>
+
+                <strong id="generatedToken">
+                    #46
+                </strong>
+
+                <span>
+                    Please wait for your turn.
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
