@@ -1,73 +1,42 @@
-# SmartQueue
+## Week 2 – Interactive UI Component
 
-## About
+For Week 2, the existing Join Queue modal was enhanced as an interactive frontend component using HTML, CSS, and Vanilla JavaScript.
 
-SmartQueue is a responsive digital queue management system designed to help users manage waiting queues digitally.
+### Features Added/Improved
 
-The system provides a simple interface for different service categories such as hospitals/clinics, banks, and barber shops. Users can select a service, generate a digital token, and view their token history.
+- Interactive Join Queue modal
+- Dynamic service selection
+- Form validation
+- Inline validation error messages
+- Token generation
+- Token cancellation
+- LocalStorage token history
+- Daily limit of 5 tokens
+- ARIA dialog attributes
+- Accessible close button
+- Keyboard Escape support
+- Focus management
+- Responsive modal design
+- Dynamic active-token display
+- Cancelled tokens are removed from active-token display
 
-## Features
+### Week 2 Testing
 
-• Responsive desktop and mobile design  
-• Mobile navigation menu  
-• Hospital/Clinic, Bank, and Barber Shop service categories  
-• Dynamic service selection  
-• Digital token generation  
-• Token history management  
-• Token cancellation  
-• Daily token limit of 5 tokens  
-• Queue status display  
-• LocalStorage support for saving token history  
-• Responsive user interface  
+The interactive component was tested for:
 
-## Technologies Used
-
-• HTML5  
-• CSS3  
-• JavaScript  
-• LocalStorage  
-
-## Service Categories
-
-### Hospital / Clinic
-• Doctor Consultation  
-• General Check-up  
-• Registration  
-• Blood Test  
-• Pharmacy  
-
-### Bank
-• Cash Deposit  
-• Cash Withdrawal  
-• Account Opening  
-• Customer Service  
-• Loan Enquiry  
-• KYC Update  
-
-### Barber Shop
-• Haircut  
-• Shaving  
-• Haircut + Shaving  
-• Beard Grooming  
-• Facial  
-• Head Massage  
-• Hair Spa  
-
-## How to Run
-
-1. Download or clone this repository.
-2. Open the project folder in VS Code.
-3. Open `index.html` using Live Server or directly in a web browser.
-4. Select a service category.
-5. Select the required service and join the queue.
-6. View and manage generated tokens from the queue section.
-
-## Project Structure
-
-```text
-SmartQueue/
-│
-├── index.html
-├── style.css
-├── script.js
-└── README.md
+1. Opening the Join Queue modal
+2. Closing the modal using the close button
+3. Closing the modal using the Escape key
+4. Clicking outside the modal
+5. Selecting different service categories
+6. Name field validation
+7. Service selection validation
+8. Digital token generation
+9. Token history display
+10. Token cancellation
+11. Active token display after cancellation
+12. LocalStorage persistence after page refresh
+13. Daily limit of 5 tokens
+14. Desktop responsive layout
+15. Mobile responsive layout
+16. Browser console checked for JavaScript errors
