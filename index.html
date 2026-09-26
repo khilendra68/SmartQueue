@@ -798,19 +798,26 @@
 
     <!-- ================= JOIN QUEUE MODAL ================= -->
 
-    <div class="modal" id="queueModal">
+    <div class="modal"
+     id="queueModal"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="modalTitle">
 
-        <div class="modal-content">
+    <div class="modal-content">
 
-            <button class="modal-close" id="modalClose">
-                ×
-            </button>
-
+        <button
+            class="modal-close"
+            id="modalClose"
+            type="button"
+            aria-label="Close Join Queue dialog">
+            ×
+        </button>
             <div class="modal-icon">
                 🎫
             </div>
 
-            <h2>
+            <h2 id="modalTitle">
                 Join Queue
             </h2>
 
@@ -829,15 +836,19 @@
                     id="userName"
                     placeholder="Enter your name"
                     required
+                    aria-describedby="nameError"
+                    autocomplete="name"
                 >
+                <small class="form-error" id="nameError"></small>
 
                 <label for="serviceType">
                         Select Service
                 </label>
 
-                <select id="serviceType" required>
+                <select id="serviceType" required aria-describedby="serviceError">
                     <!-- Services will be loaded based on selected category -->
                 </select>
+                <small class="form-error" id="serviceError"></small>
 
                 <button type="submit"
                     class="btn primary-btn full-btn">
