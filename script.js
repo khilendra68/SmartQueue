@@ -171,14 +171,46 @@ function updateQueueDisplay() {
         "#" + data.currentToken;
 
 
-    yourToken.textContent =
-        "#" + data.yourToken;
+    /*
+       Show user's active token if available.
+       Otherwise show "No active token".
+    */
+
+    const activeToken =
+        tokenHistory.find(function (token) {
+
+            return token.status === "Waiting";
+
+        });
 
 
-    let people =
-        data.yourToken -
-        data.currentToken -
-        1;
+    if (activeToken) {
+
+        yourToken.textContent =
+            "#" + activeToken.tokenNumber;
+
+    } else {
+
+        yourToken.textContent =
+            "No active token";
+
+    }
+
+
+    let people;
+
+    if (activeToken) {
+
+        people =
+            activeToken.tokenNumber -
+            data.currentToken -
+            1;
+
+    } else {
+
+        people = 0;
+
+    }
 
 
     if (people < 0) {
@@ -203,8 +235,17 @@ function updateQueueDisplay() {
     }
 
 
-    waitTime.textContent =
-        waiting + " min";
+    if (activeToken) {
+
+        waitTime.textContent =
+            waiting + " min";
+
+    } else {
+
+        waitTime.textContent =
+            "--";
+
+    }
 
 
     /* Calculate progress */
@@ -358,12 +399,33 @@ setInterval(function () {
             heroToken;
 
 
-        const remaining =
-            45 - heroToken;
+        const activeToken =
+            tokenHistory.find(function (token) {
+
+                return token.status === "Waiting";
+
+            });
 
 
-        heroWaitTime.textContent =
-            (remaining * 5) + " min";
+        if (activeToken) {
+
+            const remaining =
+                Math.max(
+                    activeToken.tokenNumber -
+                    heroToken,
+                    0
+                );
+
+
+            heroWaitTime.textContent =
+                (remaining * 5) + " min";
+
+        } else {
+
+            heroWaitTime.textContent =
+                "--";
+
+        }
 
     }
 
@@ -416,6 +478,13 @@ const serviceButtons =
     );
 
 
+/* =========================
+   MODAL ACCESSIBILITY
+========================= */
+
+let lastFocusedElement = null;
+
+
 /* Open modal */
 
 serviceButtons.forEach(function (button) {
@@ -442,7 +511,8 @@ serviceButtons.forEach(function (button) {
 
         /* Clear old options */
 
-        serviceType.innerHTML = "";
+        serviceType.innerHTML =
+            '<option value="">Select a service</option>';
 
 
         /* Identify selected category */
@@ -503,7 +573,24 @@ serviceButtons.forEach(function (button) {
             "block";
 
 
-        modal.classList.add("show");
+        /* Store the element that opened the modal */
+
+        lastFocusedElement =
+            button;
+
+
+        /* Open modal */
+
+        modal.classList.add(
+            "show"
+        );
+
+
+        /* Move keyboard focus inside modal */
+
+        document.getElementById(
+            "userName"
+        ).focus();
 
     });
 
@@ -514,24 +601,69 @@ serviceButtons.forEach(function (button) {
    CLOSE MODAL
 ========================= */
 
-modalClose.addEventListener("click", function () {
+function closeModal() {
 
-    modal.classList.remove("show");
+    modal.classList.remove(
+        "show"
+    );
 
-});
+
+    /* Return focus to opener */
+
+    if (lastFocusedElement) {
+
+        lastFocusedElement.focus();
+
+    }
+
+}
+
+
+/* Close button */
+
+modalClose.addEventListener(
+    "click",
+    function () {
+
+        closeModal();
+
+    }
+);
 
 
 /* Close modal when clicking outside */
 
-modal.addEventListener("click", function (event) {
+modal.addEventListener(
+    "click",
+    function (event) {
 
-    if (event.target === modal) {
+        if (event.target === modal) {
 
-        modal.classList.remove("show");
+            closeModal();
+
+        }
 
     }
+);
 
-});
+
+/* Close modal with Escape key */
+
+document.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (
+            event.key === "Escape" &&
+            modal.classList.contains("show")
+        ) {
+
+            closeModal();
+
+        }
+
+    }
+);
 
 
 /* =========================
@@ -563,7 +695,8 @@ function generateTokenNumber(category) {
 
         categoryTokens.some(function (token) {
 
-            return token.tokenNumber === tokenNumber;
+            return token.tokenNumber ===
+                tokenNumber;
 
         })
 
@@ -583,7 +716,9 @@ function saveTokens() {
 
     localStorage.setItem(
         "smartQueueTokens",
-        JSON.stringify(tokenHistory)
+        JSON.stringify(
+            tokenHistory
+        )
     );
 
 }
@@ -597,31 +732,39 @@ function getTodayTokenCount() {
 
     const today =
         new Date()
-            .toLocaleDateString("en-IN");
+            .toLocaleDateString(
+                "en-IN"
+            );
 
 
-    return tokenHistory.filter(function (token) {
+    return tokenHistory.filter(
+        function (token) {
 
-        /*
-           Old tokens without createdAt
-           are ignored for today's count.
-        */
+            /*
+               Old tokens without createdAt
+               are ignored for today's count.
+            */
 
-        if (!token.createdAt) {
+            if (!token.createdAt) {
 
-            return false;
+                return false;
+
+            }
+
+
+            const tokenDate =
+                new Date(
+                    token.createdAt
+                )
+                .toLocaleDateString(
+                    "en-IN"
+                );
+
+
+            return tokenDate === today;
 
         }
-
-
-        const tokenDate =
-            new Date(token.createdAt)
-                .toLocaleDateString("en-IN");
-
-
-        return tokenDate === today;
-
-    }).length;
+    ).length;
 
 }
 
@@ -648,6 +791,136 @@ function updateTokenCount() {
             todayTokenCount +
             " / " +
             MAX_DAILY_TOKENS;
+
+    }
+
+}
+
+
+/* =========================
+   UPDATE ACTIVE TOKEN DISPLAY
+========================= */
+
+function updateActiveTokenDisplay() {
+
+    const activeToken =
+        tokenHistory.find(
+            function (token) {
+
+                return token.status ===
+                    "Waiting";
+
+            }
+        );
+
+
+    const heroYourToken =
+        document.querySelector(
+            ".hero-card .queue-info div:first-child strong"
+        );
+
+
+    const heroWaitTimeElement =
+        document.getElementById(
+            "heroWaitTime"
+        );
+
+
+    const dashboardYourToken =
+        document.getElementById(
+            "yourToken"
+        );
+
+
+    const dashboardWaitTime =
+        document.getElementById(
+            "waitTime"
+        );
+
+
+    const peopleAheadElement =
+        document.getElementById(
+            "peopleAhead"
+        );
+
+
+    if (activeToken) {
+
+        /* Show active token */
+
+        heroYourToken.textContent =
+            "#" +
+            activeToken.tokenNumber;
+
+
+        dashboardYourToken.textContent =
+            "#" +
+            activeToken.tokenNumber;
+
+
+        /*
+           Calculate hero wait time
+           according to current hero token.
+        */
+
+        const remaining =
+            Math.max(
+                activeToken.tokenNumber -
+                heroToken,
+                0
+            );
+
+
+        heroWaitTimeElement.textContent =
+            (remaining * 5) +
+            " min";
+
+
+        /* Dashboard calculation */
+
+        const currentQueueData =
+            queueData[activeQueue];
+
+
+        const dashboardPeople =
+            Math.max(
+                activeToken.tokenNumber -
+                currentQueueData.currentToken -
+                1,
+                0
+            );
+
+
+        peopleAheadElement.textContent =
+            dashboardPeople;
+
+
+        dashboardWaitTime.textContent =
+            (dashboardPeople * 5) +
+            " min";
+
+    } else {
+
+        /* No active token */
+
+        heroYourToken.textContent =
+            "No active token";
+
+
+        dashboardYourToken.textContent =
+            "No active token";
+
+
+        heroWaitTimeElement.textContent =
+            "--";
+
+
+        dashboardWaitTime.textContent =
+            "--";
+
+
+        peopleAheadElement.textContent =
+            "0";
 
     }
 
@@ -699,6 +972,8 @@ function renderTokenHistory() {
         `;
 
 
+        updateActiveTokenDisplay();
+
         return;
 
     }
@@ -707,91 +982,95 @@ function renderTokenHistory() {
     historyContainer.innerHTML = "";
 
 
-    tokenHistory.forEach(function (token) {
+    tokenHistory.forEach(
+        function (token) {
 
-        const tokenCard =
-            document.createElement("div");
-
-
-        tokenCard.className =
-            "history-card";
-
-
-        let statusClass =
-            token.status.toLowerCase();
+            const tokenCard =
+                document.createElement(
+                    "div"
+                );
 
 
-        tokenCard.innerHTML = `
-
-            <div class="history-icon">
-                ${token.icon}
-            </div>
+            tokenCard.className =
+                "history-card";
 
 
-            <div class="history-info">
-
-                <h3>
-                    ${token.business}
-                </h3>
-
-                <p>
-                    ${token.service}
-                </p>
-
-                <span class="history-date">
-                    ${token.date}
-                </span>
-
-            </div>
+            let statusClass =
+                token.status.toLowerCase();
 
 
-            <div class="history-token">
+            tokenCard.innerHTML = `
 
-                <span>
-                    Token
-                </span>
-
-                <strong>
-                    #${token.tokenNumber}
-                </strong>
-
-            </div>
+                <div class="history-icon">
+                    ${token.icon}
+                </div>
 
 
-            <div class="history-status">
+                <div class="history-info">
 
-                <span
-                    class="status ${statusClass}"
-                >
-                    ${token.status}
-                </span>
+                    <h3>
+                        ${token.business}
+                    </h3>
+
+                    <p>
+                        ${token.service}
+                    </p>
+
+                    <span class="history-date">
+                        ${token.date}
+                    </span>
+
+                </div>
 
 
-                ${
-                    token.status === "Waiting"
-                    ?
-                    `
-                    <button
-                        class="cancel-token"
-                        data-id="${token.id}"
+                <div class="history-token">
+
+                    <span>
+                        Token
+                    </span>
+
+                    <strong>
+                        #${token.tokenNumber}
+                    </strong>
+
+                </div>
+
+
+                <div class="history-status">
+
+                    <span
+                        class="status ${statusClass}"
                     >
-                        Cancel
-                    </button>
-                    `
-                    :
-                    ""
-                }
-
-            </div>
-
-        `;
+                        ${token.status}
+                    </span>
 
 
-        historyContainer.appendChild(
-            tokenCard
-        );
+                    ${
+                        token.status === "Waiting"
+                        ?
+                        `
+                        <button
+                            class="cancel-token"
+                            data-id="${token.id}"
+                        >
+                            Cancel
+                        </button>
+                        `
+                        :
+                        ""
+                    }
 
-    });
+                </div>
+
+            `;
+
+
+            historyContainer.appendChild(
+                tokenCard
+            );
+
+        }
+    );
 
 
     addCancelEvents();
@@ -811,47 +1090,61 @@ function addCancelEvents() {
         );
 
 
-    cancelButtons.forEach(function (button) {
+    cancelButtons.forEach(
+        function (button) {
 
-        button.addEventListener(
-            "click",
-            function () {
+            button.addEventListener(
+                "click",
+                function () {
 
-                const tokenId =
-                    Number(
-                        button.getAttribute(
-                            "data-id"
-                        )
-                    );
-
-
-                const token =
-                    tokenHistory.find(
-                        function (item) {
-
-                            return item.id === tokenId;
-
-                        }
-                    );
+                    const tokenId =
+                        Number(
+                            button.getAttribute(
+                                "data-id"
+                            )
+                        );
 
 
-                if (token) {
+                    const token =
+                        tokenHistory.find(
+                            function (item) {
 
-                    token.status =
-                        "Cancelled";
+                                return item.id ===
+                                    tokenId;
+
+                            }
+                        );
 
 
-                    saveTokens();
+                    if (token) {
+
+                        token.status =
+                            "Cancelled";
 
 
-                    renderTokenHistory();
+                        saveTokens();
+
+
+                        renderTokenHistory();
+
+
+                        updateActiveTokenDisplay();
+
+
+                        /*
+                           Also update queue dashboard
+                           after cancellation.
+                        */
+
+                        updateQueueDisplay();
+
+                    }
 
                 }
+            );
 
-            }
-        );
-
-    });
+        }
+    );
 
 }
 
@@ -872,14 +1165,19 @@ function getCategoryFromService(service) {
     }
 
 
-    if (service === "Bank") {
+    if (
+        service === "Bank"
+    ) {
 
         return "bank";
 
     }
 
 
-    if (service === "Barber Shop") {
+    if (
+        service ===
+        "Barber Shop"
+    ) {
 
         return "barber";
 
@@ -894,21 +1192,28 @@ function getCategoryFromService(service) {
 
 function getServiceIcon(category) {
 
-    if (category === "hospital") {
+    if (
+        category ===
+        "hospital"
+    ) {
 
         return "🏥";
 
     }
 
 
-    if (category === "bank") {
+    if (
+        category === "bank"
+    ) {
 
         return "🏦";
 
     }
 
 
-    if (category === "barber") {
+    if (
+        category === "barber"
+    ) {
 
         return "💈";
 
@@ -926,21 +1231,28 @@ function getServiceIcon(category) {
 
 function getBusinessName(category) {
 
-    if (category === "hospital") {
+    if (
+        category ===
+        "hospital"
+    ) {
 
         return "CityCare Hospital";
 
     }
 
 
-    if (category === "bank") {
+    if (
+        category === "bank"
+    ) {
 
         return "SmartBank";
 
     }
 
 
-    if (category === "barber") {
+    if (
+        category === "barber"
+    ) {
 
         return "StyleCut Barber Shop";
 
@@ -968,13 +1280,68 @@ queueForm.addEventListener(
             .trim();
 
 
-        /* Name validation */
+        const nameError =
+            document.getElementById(
+                "nameError"
+            );
+
+
+        const serviceError =
+            document.getElementById(
+                "serviceError"
+            );
+
+
+        const serviceInput =
+            document.getElementById(
+                "serviceType"
+            );
+
+
+        nameError.textContent =
+            "";
+
+
+        serviceError.textContent =
+            "";
+
+
+        document.getElementById(
+            "userName"
+        )
+        .classList.remove(
+            "input-error"
+        );
+
+
+        serviceInput.classList.remove(
+            "input-error"
+        );
+
+
+        /* =========================
+           NAME VALIDATION
+        ========================= */
 
         if (name === "") {
 
-            alert(
-                "Please enter your name."
+            nameError.textContent =
+                "Please enter your name.";
+
+
+            document.getElementById(
+                "userName"
+            )
+            .classList.add(
+                "input-error"
             );
+
+
+            document.getElementById(
+                "userName"
+            )
+            .focus();
+
 
             return;
 
@@ -997,6 +1364,7 @@ queueForm.addEventListener(
             alert(
                 "Daily token limit reached. You can take maximum 5 tokens per day."
             );
+
 
             return;
 
@@ -1023,7 +1391,32 @@ queueForm.addEventListener(
             ).value;
 
 
-        /* Generate token */
+        /* =========================
+           SERVICE VALIDATION
+        ========================= */
+
+        if (serviceType === "") {
+
+            serviceError.textContent =
+                "Please select a service.";
+
+
+            serviceInput.classList.add(
+                "input-error"
+            );
+
+
+            serviceInput.focus();
+
+
+            return;
+
+        }
+
+
+        /* =========================
+           GENERATE TOKEN
+        ========================= */
 
         const tokenNumber =
             generateTokenNumber(
@@ -1037,11 +1430,14 @@ queueForm.addEventListener(
 
         const newToken = {
 
-            id: Date.now(),
+            id:
+                Date.now(),
 
-            name: name,
+            name:
+                name,
 
-            category: category,
+            category:
+                category,
 
             business:
                 getBusinessName(
@@ -1092,10 +1488,21 @@ queueForm.addEventListener(
         renderTokenHistory();
 
 
+        /* Update active token */
+
+        updateActiveTokenDisplay();
+
+
+        /* Update queue */
+
+        updateQueueDisplay();
+
+
         /* Show generated token */
 
         generatedToken.textContent =
-            "#" + tokenNumber;
+            "#" +
+            tokenNumber;
 
 
         queueForm.style.display =
@@ -1111,9 +1518,69 @@ queueForm.addEventListener(
 
 
 /* =========================
+   CLEAR NAME ERROR
+========================= */
+
+document.getElementById(
+    "userName"
+)
+.addEventListener(
+    "input",
+    function () {
+
+        const nameError =
+            document.getElementById(
+                "nameError"
+            );
+
+
+        nameError.textContent =
+            "";
+
+
+        this.classList.remove(
+            "input-error"
+        );
+
+    }
+);
+
+
+/* =========================
+   CLEAR SERVICE ERROR
+========================= */
+
+document.getElementById(
+    "serviceType"
+)
+.addEventListener(
+    "change",
+    function () {
+
+        const serviceError =
+            document.getElementById(
+                "serviceError"
+            );
+
+
+        serviceError.textContent =
+            "";
+
+
+        this.classList.remove(
+            "input-error"
+        );
+
+    }
+);
+
+
+/* =========================
    INITIAL LOAD
 ========================= */
 
 updateQueueDisplay();
 
 renderTokenHistory();
+
+updateActiveTokenDisplay();
