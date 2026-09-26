@@ -721,18 +721,38 @@ button {
 ========================= */
 
 .modal {
-    position: fixed;
-    inset: 0;
-    z-index: 2000;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background: rgba(15, 23, 42, 0.65);
-}
 
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 2000;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(15, 23, 42, 0.65);
+
+    opacity: 0;
+
+    transition: opacity 0.25s ease;
+
+}
 .modal.show {
     display: flex;
+      opacity: 1;
+}
+.modal.show .modal-content {
+
+    transform: scale(1);
+
+    opacity: 1;
+
 }
 
 .modal-content {
@@ -742,6 +762,13 @@ button {
     padding: 35px;
     border-radius: 18px;
     position: relative;
+    transform: scale(0.95);
+
+    opacity: 0;
+
+    transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
 }
 
 .modal-close {
@@ -1050,4 +1077,19 @@ button {
     .modal-content {
         padding: 25px;
     }
+}
+/* =========================
+   FORM ERROR MESSAGES
+========================= */
+
+.form-error {
+    display: block;
+    min-height: 18px;
+    margin-top: 5px;
+    color: #d93025;
+    font-size: 13px;
+}
+
+.input-error {
+    border: 1px solid #d93025 !important;
 }
